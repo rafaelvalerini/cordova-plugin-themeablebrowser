@@ -622,14 +622,20 @@ public class ThemeableBrowser extends CordovaPlugin {
                     "back button",
                     new View.OnClickListener() {
                         public void onClick(View v) {
-                            emitButtonEvent(
-                                    features.backButton,
-                                    inAppWebView.getUrl());
+                            if(inAppWebView != null && features != null){
+                                   emitButtonEvent(
+                                           features.backButton,
+                                           inAppWebView.getUrl());
 
-                            if (features.backButtonCanClose && !canGoBack()) {
-                                closeDialog();
-                            } else {
-                                goBack();
+                                   if (features.backButtonCanClose && !canGoBack()) {
+                                       closeDialog();
+                                   } else {
+                                       goBack();
+                                   }
+                            }else{
+                                 if (dialog != null) {
+                                     dialog.dismiss();
+                                 }  
                             }
                         }
                     }
@@ -669,8 +675,13 @@ public class ThemeableBrowser extends CordovaPlugin {
                                    emitButtonEvent(
                                           features.closeButton,
                                           inAppWebView.getUrl());
+                                   closeDialog();
+                            }else{
+                               if (dialog != null) {
+                                   dialog.dismiss();
+                               }      
                             }
-                            closeDialog();
+                            
                         }
                     }
                 );
